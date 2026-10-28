@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
@@ -24,25 +25,25 @@
 
     #unity-container {
       position: fixed !important;
-      inset: 0;
+      top: 0 !important;
+      left: 0 !important;
       width: 100% !important;
       height: 100% !important;
       margin: 0 !important;
       padding: 0 !important;
       transform: none !important;
       background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     #unity-canvas {
       display: block;
-      position: relative;
-      width: auto;
-      height: auto;
-      max-width: 100%;
-      max-height: 100%;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
       background: #000;
       touch-action: none;
     }
@@ -120,49 +121,6 @@
       updateBannerVisibility();
     }
 
-    // ゲームの基準解像度
-    const GAME_WIDTH = 1080;
-    const GAME_HEIGHT = 1920;
-
-    // 画面サイズに合わせて縦横比を維持
-    function resizeGame() {
-      const screenWidth =
-        document.documentElement.clientWidth;
-
-      const screenHeight =
-        window.visualViewport
-          ? window.visualViewport.height
-          : window.innerHeight;
-
-      const scale = Math.min(
-        screenWidth / GAME_WIDTH,
-        screenHeight / GAME_HEIGHT
-      );
-
-      canvas.style.setProperty(
-        "width",
-        Math.floor(GAME_WIDTH * scale) + "px",
-        "important"
-      );
-
-      canvas.style.setProperty(
-        "height",
-        Math.floor(GAME_HEIGHT * scale) + "px",
-        "important"
-      );
-    }
-
-    window.addEventListener("resize", resizeGame);
-
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener(
-        "resize",
-        resizeGame
-      );
-    }
-
-    resizeGame();
-
     var buildUrl = "Build";
 
     var loaderUrl =
@@ -190,12 +148,31 @@
       showBanner: unityShowBanner
     };
 
-    // モバイル端末の描画負荷を軽減
     if (/iPhone|iPad|iPod|Android/i.test(
       navigator.userAgent
     )) {
       config.devicePixelRatio = 1;
     }
+
+    function resizeGame() {
+      canvas.style.setProperty(
+        "width", "100%", "important"
+      );
+
+      canvas.style.setProperty(
+        "height", "100%", "important"
+      );
+    }
+
+    window.addEventListener("resize", resizeGame);
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener(
+        "resize", resizeGame
+      );
+    }
+
+    resizeGame();
 
     document.querySelector(
       "#unity-loading-bar"
