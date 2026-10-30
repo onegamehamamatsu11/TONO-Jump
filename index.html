@@ -148,11 +148,6 @@
       showBanner: unityShowBanner
     };
 
-    if (/iPhone|iPad|iPod|Android/i.test(
-      navigator.userAgent
-    )) {
-      config.devicePixelRatio = 1;
-    }
 
     function resizeGame() {
       canvas.style.setProperty(
